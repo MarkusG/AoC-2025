@@ -9,12 +9,13 @@ public class Day01 : AdventBase
         var lines = Input.Lines;
         var pos = 50;
         var zeroes = 0;
+        
         foreach (var l in lines)
         {
             if (l[0] == 'L')
-                pos -= int.Parse(l[1..]);
+                pos -= int.Parse(l.AsSpan()[1..]);
             else
-                pos += int.Parse(l[1..]);
+                pos += int.Parse(l.AsSpan()[1..]);
             pos %= 100;
             if (pos == 0)
                 zeroes++;
