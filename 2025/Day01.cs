@@ -6,11 +6,10 @@ public class Day01 : AdventBase
 {
     protected override object InternalPart1()
     {
-        var lines = Input.Lines;
         var pos = 50;
         var zeroes = 0;
-        
-        foreach (var l in lines)
+
+        foreach (var l in Input.Lines)
         {
             if (l[0] == 'L')
                 pos -= int.Parse(l.AsSpan()[1..]);
@@ -26,16 +25,16 @@ public class Day01 : AdventBase
 
     protected override object InternalPart2()
     {
-        var lines = Input.Lines;
         var pos = 50;
         var zeroes = 0;
-        foreach (var l in lines)
+
+        foreach (var l in Input.Lines)
         {
             var magnitude = int.Parse(l[1..]);
             var direction = 1;
             if (l[0] == 'L')
                 direction = -1;
-            
+
             // fuck it
             for (var i = 0; i < magnitude; i++)
             {
@@ -43,7 +42,7 @@ public class Day01 : AdventBase
 
                 if (pos == 100)
                     pos = 0;
-                
+
                 if (pos == 0)
                     zeroes++;
 
