@@ -30,24 +30,38 @@ public class Day01 : AdventBase
 
         foreach (var l in Input.Lines)
         {
-            var magnitude = int.Parse(l[1..]);
+            var magnitude = int.Parse(l.AsSpan()[1..]);
             var direction = 1;
+
             if (l[0] == 'L')
                 direction = -1;
 
-            // fuck it
-            for (var i = 0; i < magnitude; i++)
+            zeroes += magnitude / 100;
+
+            var magnitudeRem = magnitude % 100;
+
+            var newPos = pos + magnitudeRem * direction;
+
+            switch (newPos)
             {
-                pos += direction;
-
-                if (pos == 100)
-                    pos = 0;
-
-                if (pos == 0)
+                case > 99:
                     zeroes++;
-
-                if (pos == -1)
-                    pos = 99;
+                    pos = newPos % 100;
+                    break;
+                case 0:
+                    zeroes++;
+                    pos = newPos;
+                    break;
+                case < 0 when pos == 0:
+                    pos = 100 + newPos;
+                    break;
+                case < 0:
+                    zeroes++;
+                    pos = 100 + newPos;
+                    break;
+                default:
+                    pos = newPos;
+                    break;
             }
         }
 
