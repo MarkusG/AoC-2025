@@ -28,7 +28,7 @@ public class Day03 : AdventBase
     protected override object InternalPart2()
     {
         long sum = 0;
-        foreach (var l in Input.Lines)
+        foreach (ReadOnlySpan<char> l in Input.Lines)
         {
             var digits = new int[12];
             var idx = 0;
@@ -54,7 +54,7 @@ public class Day03 : AdventBase
         return sum;
     }
 
-    private static int GetNextIndex(string bank, int remainingDigits)
+    private static int GetNextIndex(ReadOnlySpan<char> bank, int remainingDigits)
     {
         var idx = -1;
 
