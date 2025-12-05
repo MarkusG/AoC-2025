@@ -34,15 +34,11 @@ public class Day05 : AdventBase
         long count = 0;
 
         var ranges = new List<(long Low, long High)>();
-        var lows = new HashSet<long>();
-        var highs = new HashSet<long>();
         foreach (var f in fresh)
         {
             var one = long.Parse(f.Split('-')[0]);
             var two = long.Parse(f.Split('-')[1]);
 
-            lows.Add(one);
-            highs.Add(two);
             ranges.Add((one, two));
         }
 
