@@ -50,7 +50,6 @@ public class Day11 : AdventBase
 
     private long GetPathsToOut2(string node, Dictionary<string, HashSet<string>> outs, bool dacVisited, bool fftVisited)
     {
-        var paths = 0;
         if (node == "out")
             return 0;
 
@@ -60,18 +59,8 @@ public class Day11 : AdventBase
         var dac = dacVisited || node == "dac";
         var fft = fftVisited || node == "fft";
 
-        var ret = 0L;
+        var isValidTerminalNode = outs[node].Contains("out") && dacVisited && fftVisited ? 1 : 0;
 
-        if (outs[node].Contains("out") && dacVisited && fftVisited)
-            paths++;
-
-        foreach (var o in outs[node])
-        {
-            var result = GetPathsToOut2(o, outs, dac, fft);
-            _cache[(o, dac, fft)] = result;
-            ret += result;
-        }
-
-        return paths + ret;
+        return isValidTerminalNode + outs[node].Sum(n => _cache[(n, dac, fft)] = GetPathsToOut2(n, outs, dac, fft));
     }
 }
