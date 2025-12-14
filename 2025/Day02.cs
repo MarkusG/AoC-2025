@@ -11,20 +11,22 @@ public class Day02 : AdventBase
             .Select(r => r.Split('-'))
             .Select(r => (long.Parse(r[0]), long.Parse(r[1])));
 
-        ulong sum = 0;
+        long sum = 0;
 
         foreach (var r in ranges)
         {
             for (var i = r.Item1; i <= r.Item2; i++)
             {
-                var digits = Math.Floor(Math.Log10(i) + 1);
-                if (digits % 2 != 0)
-                    continue;
-
-                var divisor = (int)Math.Pow(10, digits / 2);
-
-                if (i % divisor == i / divisor)
-                    sum += (ulong)i;
+                if (i is >= 10 and < 100 && i % 11 == 0)
+                    sum += i;
+                else if (i is >= 1_000 and < 10_000 && i % 101 == 0)
+                    sum += i;
+                else if (i is >= 100_000 and < 1_000_000 && i % 1001 == 0)
+                    sum += i;
+                else if (i is >= 10_000_000 and < 100_000_000 && i % 10001 == 0)
+                    sum += i;
+                else if (i is >= 1_000_000_000 and < 10_000_000_000 && i % 100001 == 0)
+                    sum += i;
             }
         }
 
@@ -37,39 +39,69 @@ public class Day02 : AdventBase
         var ranges = input.Split(',')
             .Select(r => r.Split('-'))
             .Select(r => (long.Parse(r[0]), long.Parse(r[1])));
-        
+
         long sum = 0;
 
         foreach (var r in ranges)
         {
             for (var i = r.Item1; i <= r.Item2; i++)
             {
-                var @string = i.ToString();
-
-                var invalid = false;
-                for (var j = @string.Length - 1; j > 0; j--)
-                {
-                    if (@string.Length % j != 0)
-                        continue;
-
-                    var chunks = @string.Chunk(j).Select(chunk => new string(chunk)).ToList();
-
-                    var initialChunk = chunks[0];
-                    foreach (var chunk in chunks[1..])
-                    {
-                        if (chunk != initialChunk)
-                            goto notThisChunkSize;
-                    }
-
-                    invalid = true;
-                    notThisChunkSize: ;
-                }
-
-                if (invalid)
+                if (i is >= 10 and < 100
+                    // 1 digit repeated 2
+                    && i % 11 == 0)
+                    sum += i;
+                else if (i is >= 100 and < 1_000
+                         // 1 digit repeated 3
+                         && i % 111 == 0)
+                    sum += i;
+                else if (i is > 1_000 and < 10_000 && (
+                             // 1 digit repeated 4
+                             i % 1111 == 0
+                             // 2 digit repeated 2
+                             || i % 101 == 0))
+                    sum += i;
+                else if (i is >= 10_000 and < 100_000 &&
+                         // 1 digit repeated 5
+                         i % 11111 == 0)
+                    sum += i;
+                else if (i is >= 100_000 and < 1_000_000 &&
+                         // 1 digit repeated 6
+                         (i % 111111 == 0
+                          // 2 digit repeated 3
+                          || i % 10101 == 0
+                          // 3 digit repeated 2
+                          || i % 1001 == 0))
+                    sum += i;
+                else if (i is >= 1_000_000 and < 10_000_000 &&
+                         // 1 digit repeated 7
+                         i % 1111111 == 0)
+                    sum += i;
+                else if (i is >= 10_000_000 and < 100_000_000 && (
+                             // 1 digit repeated 8
+                             i % 11111111 == 0
+                             // 2 digit repeated 4
+                             || i % 1010101 == 0
+                             // 4 digit repeated 2
+                             || i % 10001 == 0))
+                    sum += i;
+                else if (i is >= 100_000_000 and < 1_000_000_000 && (
+                             // 1 digit repeated 9
+                             i % 111111111 == 0
+                             // 3 digit repeated 3
+                             || i % 1001001 == 0
+                         ))
+                    sum += i;
+                else if (i is >= 1_000_000_000 and < 10_000_000_000 && (
+                             // 1 digit repeated 10
+                             i % 1111111111 == 0
+                             // 2 digit repeated 5
+                             || i % 101010101 == 0
+                             // 5 digit repeated 2
+                             || i % 100001 == 0
+                         ))
                     sum += i;
             }
         }
-
 
         return sum;
     }
